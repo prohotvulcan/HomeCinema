@@ -1,5 +1,6 @@
 ﻿using homeCinema.Data.Configurations;
 using homeCinema.Data.Entities;
+using homeCinema.Data.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace homeCinema.Data.EF
@@ -24,6 +25,7 @@ namespace homeCinema.Data.EF
             modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
 
             // add seeding
+            modelBuilder.SeedData();
         }
 
         public DbSet<Customer> Customers { get; set; }
