@@ -1,0 +1,44 @@
+[
+  {
+    "outputFileName": "wwwroot/js/bundles/modernizr.min.js",
+    "inputFiles": [
+      "wwwroot/js/vendors/modernizr.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/bundles/vendors.min.js",
+    "inputFiles": [
+      "wwwroot/js/vendors/jquery.js",
+      "wwwroot/js/vendors/bootstrap.js",
+      "wwwroot/js/vendors/toastr.js",
+      "wwwroot/js/vendors/respond.src.js",
+      "wwwroot/js/vendors/angular.js",
+      "wwwroot/js/vendors/angular-route.js",
+      "wwwroot/js/vendors/angular-cookies.js",
+      "wwwroot/js/vendors/angular-validator.js",
+      "wwwroot/js/vendors/angular-base64.js",
+      "wwwroot/js/vendors/angular-file-upload.js",
+      "wwwroot/js/vendors/angucomplete-alt.min.js",
+      "wwwroot/js/vendors/ui-bootstrap-tpls-0.13.1.js",
+      "wwwroot/js/vendors/underscore.js",
+      "wwwroot/js/vendors/raphael.js",
+      "wwwroot/js/vendors/morris.js",
+      "wwwroot/js/vendors/jquery.fancybox.js",
+      "wwwroot/js/vendors/jquery.fancybox-media.js",
+      "wwwroot/js/vendors/loading-bar.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/custom.min.css",
+    "inputFiles": [
+      "wwwroot/css/site.css",
+      "wwwroot/css/bootstrap.css",
+      "wwwroot/css/bootstrap-theme.css",
+      "wwwroot/css/font-awesome.css",
+      "wwwroot/css/morris.css",
+      "wwwroot/css/toastr.css",
+      "wwwroot/css/jquery.fancybox.css",
+      "wwwroot/css/loading-bar.css"
+    ]
+  }
+]

@@ -2,8 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using homeCinema.Application.Interfaces;
+using homeCinema.Application.Services;
+using homeCinema.Data.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,6 +27,22 @@ namespace homeCinema.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            // add connection string
+            services.AddDbContext<HomeCinemaDbContext>(options
+                => options.UseSqlServer(Configuration.GetConnectionString("HomeCinema"),
+                options => options.MigrationsAssembly("homeCinema.Data")));
+
+            services.AddMemoryCache();
+           
+
+            // dependency configuration
+            services.AddTransient(typeof(IRepository<>), typeof(BaseRepository<>));
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IEncryptionService, EncryptionService>();
+            services.AddTransient<IMembershipService, MembershipService>();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

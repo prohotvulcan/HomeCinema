@@ -1,8 +1,32 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    Layout = null;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+
+<html ng-app="homeCinema">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Cinema</title>
+    <link rel="stylesheet" href="~/css/custom.min.css" />
+    <script src="~/js/bundles/modernizr.min.js"></script>
+</head>
+<body ng-controller="rootCtrl">
+    <top-bar></top-bar>
+    <div class="row-offcanvas row-offcanvas-left">
+        <side-bar></side-bar>
+        <div id="main">
+            <div class="col-md-12">
+                <p class="visible-xs">
+                    <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                </p>
+                <div class="page {{ pageClass }}" ng-view></div>
+            </div>
+        </div>
+    </div><!--/row-offcanvas -->
+
+    <script src="~/js/bundles/vendors.min.js"></script>
+
+</body>
+</html>
