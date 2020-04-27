@@ -40,5 +40,17 @@
       "wwwroot/css/jquery.fancybox.css",
       "wwwroot/css/loading-bar.css"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/spa/spa.min.js",
+    "inputFiles": [
+      "wwwroot/js/spa/app.js",
+      "wwwroot/js/spa/home/indexCtrl.js",
+      "wwwroot/js/spa/home/rootCtrl.js",
+      "wwwroot/js/spa/services/apiService.js",
+      "wwwroot/js/spa/services/fileUploadService.js",
+      "wwwroot/js/spa/services/membershipService.js",
+      "wwwroot/js/spa/services/notificationService.js"
+    ]
   }
 ]
