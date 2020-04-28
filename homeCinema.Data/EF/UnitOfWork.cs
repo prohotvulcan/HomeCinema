@@ -1,4 +1,6 @@
-﻿namespace homeCinema.Data.EF
+﻿using System.Threading.Tasks;
+
+namespace homeCinema.Data.EF
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -9,9 +11,9 @@
             _dbContext = dbContext;
         }
 
-        public void Commit()
+        public async Task CommitAsync()
         {
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
 
         public void Dispose()

@@ -3,10 +3,12 @@ using homeCinema.Application.Utilities;
 using homeCinema.Data.EF;
 using homeCinema.Data.Entities;
 using homeCinema.Data.Extensions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
+using System.Threading.Tasks;
 
 namespace homeCinema.Application.Services
 {
@@ -34,9 +36,9 @@ namespace homeCinema.Application.Services
         }
 
         #region Implement methods
-        public User CreateUser(string username, string email, string password, int[] roles)
+        public async Task<User> CreateUser(string username, string email, string password, int[] roles)
         {
-            var userExisting = _userRepository.GetSingleByUsername(username);
+            var userExisting = await _userRepository.GetSingleByUsername(username);
             if (userExisting != null)
             {
                 throw new Exception("Username is already in use.");
@@ -54,28 +56,30 @@ namespace homeCinema.Application.Services
             };
 
             _userRepository.Add(user);
-            _unitOfWork.Commit();
+
+            await _unitOfWork.CommitAsync();
 
             if (roles != null && roles.Length > 0)
             {
                 foreach (int id in roles)
                 {
-                    AddUserToRole(user, id);
+                    await AddUserToRole(user, id);
                 }
             }
-            _unitOfWork.Commit();
+            await _unitOfWork.CommitAsync();
+
             return user;
         }
 
-        public User GetUser(int id)
+        public async Task<User> GetUser(int id)
         {
-            return _userRepository.GetSingle(id);
+            return await _userRepository.GetSingleAsync(id);
         }
 
-        public List<Role> GetUserRoles(string username)
+        public async Task<List<Role>> GetUserRoles(string username)
         {
             List<Role> roles = new List<Role>();
-            var existingUser = _userRepository.GetSingleByUsername(username);
+            var existingUser = await _userRepository.GetSingleByUsername(username);
 
             if (existingUser != null)
             {
@@ -87,13 +91,13 @@ namespace homeCinema.Application.Services
             return roles.Distinct().ToList();
         }
 
-        public MembershipContext ValidateUser(string username, string password)
+        public async Task<MembershipContext> ValidateUser(string username, string password)
         {
             MembershipContext context = new MembershipContext();
-            var userExisting = _userRepository.GetSingleByUsername(username);
+            var userExisting = await _userRepository.GetSingleByUsername(username);
             if (userExisting != null && IsUserValid(userExisting, password))
             {
-                var userRoles = GetUserRoles(username);
+                var userRoles = await GetUserRoles(username);
                 context.User = userExisting;
                 var identity = new GenericIdentity(username);
                 context.Principal = new GenericPrincipal(identity, userRoles.Select(x => x.Name).ToArray());
@@ -103,9 +107,9 @@ namespace homeCinema.Application.Services
         #endregion
 
         #region Private methods
-        public void AddUserToRole(User user, int roleId)
+        public async Task AddUserToRole(User user, int roleId)
         {
-            var role = _roleRepository.GetSingle(roleId);
+            var role = await _roleRepository.GetSingleAsync(roleId);
             if (role == null)
             {
                 throw new Exception("Role doesn't exist.");

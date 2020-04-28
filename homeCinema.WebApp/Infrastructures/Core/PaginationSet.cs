@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace homeCinema.WebApp.Infrastructures.Core
@@ -15,7 +16,14 @@ namespace homeCinema.WebApp.Infrastructures.Core
             }
         }
 
-        public int TotalPages { get; set; }
+        public int TotalPages
+        {
+            get 
+            {
+                return (int)Math.Ceiling((decimal)TotalCount / Page);
+            }
+        }
+
         public int TotalCount { get; set; }
 
         public IEnumerable<T> Items { get; set; }

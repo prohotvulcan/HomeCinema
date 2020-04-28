@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using homeCinema.Application.Interfaces;
 using homeCinema.Application.Services;
 using homeCinema.Data.EF;
+using homeCinema.WebApp.Mappings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -42,7 +44,10 @@ namespace homeCinema.WebApp
             services.AddTransient<IEncryptionService, EncryptionService>();
             services.AddTransient<IMembershipService, MembershipService>();
 
-
+            // auto mapper configuration
+            services.AddAutoMapper(typeof(Startup));
+            var mappingConfig = AutoMapperConfiguration.RegisterMappings();
+            services.AddSingleton(mappingConfig.CreateMapper());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

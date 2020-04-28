@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace homeCinema.Data.EF
 {
@@ -13,14 +15,6 @@ namespace homeCinema.Data.EF
         public BaseRepository(HomeCinemaDbContext dbContext)
         {
             _dbContext = dbContext;
-        }
-
-        public IQueryable<T> All
-        {
-            get
-            {
-                return GetAll();
-            }
         }
 
         public void Add(T entity)
@@ -46,19 +40,32 @@ namespace homeCinema.Data.EF
             _dbContext.Set<T>().Remove(entity);
         }
 
-        public IQueryable<T> FindBy(Expression<Func<T, bool>> predicate)
+        public async Task<List<T>> FindByAsync(Expression<Func<T, bool>> predicate)
         {
-            return _dbContext.Set<T>().Where(predicate);
+            return await (predicate != null
+                ? _dbContext.Set<T>().Where(predicate).ToListAsync()
+                : _dbContext.Set<T>().ToListAsync());
         }
 
-        public IQueryable<T> GetAll()
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, object>> orderByDescPredicate = null, int? take = null)
         {
-            return _dbContext.Set<T>();
+            var result = _dbContext.Set<T>();
+            if (orderByDescPredicate != null)
+            {
+                result.OrderByDescending(orderByDescPredicate);
+            }
+
+            if (take != null)
+            {
+                result.Take(take.Value);
+            }
+
+            return await result.ToListAsync();
         }
 
-        public T GetSingle(int id)
+        public async Task<T> GetSingleAsync(int id)
         {
-            return _dbContext.Set<T>().FirstOrDefault(x => x.Id == id);
+            return await _dbContext.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public void Edit(T entity)
