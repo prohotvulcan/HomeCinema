@@ -22,7 +22,7 @@ namespace homeCinema.Data.EF
             _dbContext.Set<T>().Add(entity);
         }
 
-        public IQueryable<T> AllIncluding(params Expression<Func<T, object>>[] includeProperties)
+        public async Task<List<T>> AllIncludeAsync(params Expression<Func<T, object>>[] includeProperties)
         {
             IQueryable<T> query = _dbContext.Set<T>();
             if (includeProperties != null)
@@ -32,7 +32,7 @@ namespace homeCinema.Data.EF
                     query = query.Include(property);
                 }
             }
-            return query;
+            return await query.ToListAsync();
         }
 
         public void Delete(T entity)
@@ -47,20 +47,9 @@ namespace homeCinema.Data.EF
                 : _dbContext.Set<T>().ToListAsync());
         }
 
-        public async Task<List<T>> GetAllAsync(Expression<Func<T, object>> orderByDescPredicate = null, int? take = null)
+        public async Task<List<T>> GetAllAsync()
         {
-            var result = _dbContext.Set<T>();
-            if (orderByDescPredicate != null)
-            {
-                result.OrderByDescending(orderByDescPredicate);
-            }
-
-            if (take != null)
-            {
-                result.Take(take.Value);
-            }
-
-            return await result.ToListAsync();
+            return await _dbContext.Set<T>().ToListAsync();
         }
 
         public async Task<T> GetSingleAsync(int id)

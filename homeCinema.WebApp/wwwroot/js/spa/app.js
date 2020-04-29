@@ -7,17 +7,18 @@
 
     config.$inject = ['$routeProvider'];
     function config($routeProvider) {
+
         $routeProvider
             .when("/", {
-                templateUrl: "wwwroot/js/spa/home/index.html",
+                templateUrl: "js/spa/home/index.html",
                 controller: "indexCtrl"
             })
             .when("/login", {
-                templateUrl: "wwwroot/js/spa/account/login.html",
+                templateUrl: "js/spa/account/login.html",
                 controller: "loginCtrl"
             })
             .when("/register", {
-                templateUrl: "wwwroot/js/spa/account/register.html",
+                templateUrl: "js/spa/account/register.html",
                 controller: "registerCtrl"
             })
             .when("/customers", {
@@ -52,6 +53,8 @@
                 controller: "rentalCtrl"
             }).otherwise({ redirectTo: "/" });
     }
+
+    
 
     run.$inject = ['$rootScope', '$location', '$cookieStore', '$http'];
     function run($rootScope, $location, $cookieStore, $http) {

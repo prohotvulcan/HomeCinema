@@ -42,8 +42,8 @@
             Morris.Bar({
                 element: "genres-bar",
                 data: genres,
-                xkey: "Name",
-                ykeys: ["NumberOfMovies"],
+                xkey: "name",
+                ykeys: ["numberOfMovies"],
                 labels: ["Number Of Movies"],
                 barRatio: 0.4,
                 xLabelAngle: 55,

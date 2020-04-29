@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using homeCinema.Data.EF;
 using homeCinema.Data.Entities;
 using homeCinema.WebApp.Infrastructures.Core;
@@ -11,8 +6,11 @@ using homeCinema.WebApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting.Internal;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace homeCinema.WebApp.Controllers
 {
@@ -39,12 +37,14 @@ namespace homeCinema.WebApp.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("lastest")]
+        [Route("latest")]
         public async Task<IActionResult> Get()
         {
-            var movies = await _movieRepository.GetAllAsync(x => x.ReleaseDate, 6);
+            var movies = await _movieRepository.AllIncludeAsync(x => x.Stocks, x => x.Genre);
 
-            var moviesVm = _mapper.Map<List<Movie>, List<MovieViewModel>>(movies);
+            List<MovieViewModel> moviesVm = _mapper.Map<List<Movie>, List<MovieViewModel>>(movies);
+
+            moviesVm = moviesVm.OrderByDescending(x => x.ReleaseDate).Take(6).ToList();
 
             if (moviesVm != null)
             {
@@ -164,6 +164,37 @@ namespace homeCinema.WebApp.Controllers
                 return Ok(movie);
             }
         }
-        
+
+        [HttpPost]
+        [Route("images/upload")]
+        public async Task<IActionResult> PostAsync([FromForm] int movieId, [FromForm] IFormFile file)
+        {
+            var movieDb = await _movieRepository.GetSingleAsync(movieId);
+            if (movieDb == null)
+                return BadRequest("Invalid movie.");
+
+            try
+            {
+                if (file.Length > 0)
+                {
+                    var filePath = Path.Combine("wwwroot/images/movies", file.FileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+                    }
+                }
+
+                // update image
+                movieDb.Image = file.FileName;
+                _movieRepository.Edit(movieDb);
+                await _unitOfWork.CommitAsync();
+
+                return Ok(new { success = true, message = "Upload successfuly." });
+            }
+            catch (Exception)
+            {
+                return BadRequest("Upload failed.");
+            }
+        }
     }
 }

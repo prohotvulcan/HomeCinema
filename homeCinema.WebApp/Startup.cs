@@ -31,7 +31,7 @@ namespace homeCinema.WebApp
             services.AddControllersWithViews();
 
             // add connection string
-            services.AddDbContext<HomeCinemaDbContext>(options
+            services.AddDbContextPool<HomeCinemaDbContext>(options
                 => options.UseSqlServer(Configuration.GetConnectionString("HomeCinema"),
                 options => options.MigrationsAssembly("homeCinema.Data")));
 
@@ -73,6 +73,7 @@ namespace homeCinema.WebApp
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
         }
     }
 }
