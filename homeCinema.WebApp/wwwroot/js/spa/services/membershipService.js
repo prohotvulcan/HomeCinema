@@ -3,7 +3,8 @@
 
     app.factory('membershipService', membershipService);
 
-    membershipService.$inject = ['apiService', 'notificationService', '$http', '$base64', '$cookieStore', '$rootScope'];
+    membershipService.$inject
+        = ['apiService', 'notificationService', '$http', '$base64', '$cookieStore', '$rootScope'];
 
     function membershipService(apiService, notificationService, $http, $base64, $cookieStore, $rootScope) {
 

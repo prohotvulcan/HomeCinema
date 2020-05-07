@@ -22,7 +22,7 @@
                 controller: "registerCtrl"
             })
             .when("/customers", {
-                templateUrl: "wwwroot/js/spa/customers/customers.html",
+                templateUrl: "js/spa/customers/customers.html",
                 controller: "customersCtrl"
             })
             .when("/customers/register", {

@@ -1,0 +1,107 @@
+﻿<div class="panel panel-primary">
+    <div class="panel-heading">
+        Edit {{editedCustomer.firstName}} {{editedCustomer.lastName}}
+    </div>
+    <div class="panel-body">
+        <form role="form" novalidate angular-validator name="addCustomerForm" angularvalidator-submit="Register()">
+            <div class="">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label class="control-label" for="firstName">First Name</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   ng-model="editedCustomer.firstName" 
+                                   name="firstName" 
+                                   id="firstName"
+                                   placeholder="First Name" 
+                                   validate-on="blur" 
+                                   required required-message="'First Name is required'">
+                        </div>
+                        <div class="col-sm-6 selectContainer">
+                            <label class="control-label" for="lastName">Last Name</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   ng-model="editedCustomer.lastName"
+                                   name="lastName" 
+                                   id="lastName"
+                                   placeholder="Last Name" 
+                                   validate-on="blur" 
+                                   required required-message="'Last Name is required'" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <label class="control-label" for="email">Email</label>
+                            <input type="text"
+                                   class="form-control" 
+                                   ng-model="editedCustomer.email" 
+                                   name="email" 
+                                   id="email"
+                                   placeholder="Email" 
+                                   validate-on="blur" 
+                                   required required-message="'Email is required'">
+                        </div>
+                        <div class="col-xs-6 selectContainer" >
+                            <label class="control-label" for="identityCard">Identity Card</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   ng-model="editedCustomer.identityCard" 
+                                   name="identityCard" 
+                                   id="identityCard"
+                                   placeholder="Identity Card" 
+                                   validate-on="blur" 
+                                   required required-message="'Identity Card is required'" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <label class="control-label" for="mobilePhone">Mobile</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   ng-model="editedCustomer.mobile" 
+                                   name="mobilePhone" 
+                                   id="mobilePhone"
+                                   placeholder="Mobile phone" 
+                                   validate-on="blur" 
+                                   required required-message="'Mobile phone is required'" />
+                        </div>
+                        <div class="col-xs-6 selectContainer">
+                            <label class="control-label" for="dateOfBirth">Date of Birth</label>
+                            <p class="input-group">
+                                <input type="text" 
+                                       class="form-control" 
+                                       name="dateOfBirth" 
+                                       datepicker-popup="{{format}}" 
+                                       ng-model="editedCustomer.dateOfBirth" 
+                                       is-open="datepicker.opened"
+                                       datepicker-options="dateOptions" 
+                                       ng-required="true" 
+                                       datepicker-append-to-body="true" 
+                                       close-text="Close"
+                                       validate-on="blur" 
+                                       required required-message="'Date of birth is required'" />
+
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="openDatePicker($event)">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </button>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="panel-footer clearfix">
+        <div class="pull-right">
+            <button type="button" class="btn btn-danger" ng-click="cancelEdit()">Cancel</button>
+            <button type="button" class="btn btn-danger" ng-click="updateCustomer()">Update</button>
+        </div>
+    </div>
+</div>

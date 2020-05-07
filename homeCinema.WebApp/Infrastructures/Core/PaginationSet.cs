@@ -16,11 +16,13 @@ namespace homeCinema.WebApp.Infrastructures.Core
             }
         }
 
+        public int PageSize { get; set; }
+
         public int TotalPages
         {
-            get 
+            get
             {
-                return (int)Math.Ceiling((decimal)TotalCount / Page);
+                return (int)Math.Ceiling((decimal)TotalCount / PageSize);
             }
         }
 
